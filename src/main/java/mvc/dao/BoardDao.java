@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import mvc.dbcon.Dbconn;
 import mvc.vo.BoardVo;
+import mvc.vo.Criteria;
 
 public class BoardDao {
 
@@ -17,6 +18,34 @@ public class BoardDao {
 	public BoardDao() { // 생성자를 만든다 -> DB연결하는 DBconn객체를 생성하기 위해서
 		Dbconn db = new Dbconn();
 		this.conn = db.getConnection();
+	}
+	
+	public int boardTotalCount(Criteria cri) {
+		
+		int value = 0;
+		String sql = "select * from board where delyn ='N'";
+		ResultSet rs = null;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				value = rs.getInt("cnt");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				//conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return value;
 	}
 	
 	public ArrayList<BoardVo> boardSelectAll() {

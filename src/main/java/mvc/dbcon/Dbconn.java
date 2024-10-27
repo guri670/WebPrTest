@@ -8,7 +8,7 @@ public class Dbconn {
 	private Connection conn; //멤버변수는 선언만해도 자동초기화가 됨
 	private String url = "jdbc:mysql://127.0.0.1/webpr?serverTimezone=UTC";
 	private String user = "root";
-	private String password = "1234";
+	private String password = "lhg941020";
 	
 	public Connection getConnection() {
 
@@ -18,10 +18,8 @@ public class Dbconn {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
-		// System.out.println("객체연결생성확인 ==>" +conn);
+		System.out.println("객체연결생성확인 ==>" +conn);
 		return conn; // 연결객체가 생겨났을때 객체정보를 담고 있는 객체 참조변수
 					 // 연결이 null값이면 연결이 되지 않는다
 	}
-	
-	
-}
+}		

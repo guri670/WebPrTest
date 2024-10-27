@@ -3,6 +3,13 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "mvc.vo.*" %>
 
+<%
+ArrayList<BoardVo> alist = (ArrayList<BoardVo>)request.getAttribute("alist");
+//System.out.println("alist==> "+alist);
+PageMaker pm = (PageMaker)request.getAttribute("pm");
+
+//int totalCount = pm.getTotalCnt();
+%>
 
 <!DOCTYPE html>
 <html>
@@ -33,14 +40,22 @@
 			<th>조회</th>
 			<th>날짜</th>
 		</tr>
+		<% 
+		//int num = totalCount - (pm.getCri().getPage()-1)*pm.getCri().getPerPageNum();
+		for(BoardVo bv :alist){
+
+		%>
 		<tr>
-			<td>1</td>
-			<td class="title"><a href="#">제목</a></td>
-			<td>작성자</td>
-			<td>1</td>
-			<td>2024.08.02</td>
+			<td>번호</td>
+			<td class="title"><a href="#"><%=bv.getSubject() %></a></td>
+			<td><%=bv.getWriter() %></td>
+			<td><%=bv.getViewcnt() %></td>
+			<td><%=bv.getWriteday() %></td>
 		</tr>
-		
+		<%
+		//num = num - 1 ;
+		}
+		%>
 	</table>
 	
 	<div class="btnBox">
@@ -49,16 +64,20 @@
 	
 	<div class="page">
 		<ul>
-			<li class="on">1</li>
-			<li>2</li>
-			<li>3</li>
-			<li>4</li>
-			<li>5</li>
-			<li>6</li>
-			<li>7</li>
-			<li>8</li>
-			<li>9</li>
-			<li>10</li>
+			<% if(pm.isPrev() == true) { %>
+			<li>
+			<a href="<%=request.getContextPath()%>/board/boardList.aws?page=<%=pm.getStartPage()-1%>">◀</a>
+			<li> <% } %>
+			
+			<% for(int i = pm.getStartPage() ; i <= pm.getEndPage() ; i++) { %>
+			<li <% if(i==pm.getCri().getPage()) { %> class="on" <% } %>>
+			<a href="<%=request.getContextPath() %>/board/boardList.aws?page=<%=i %>"><%=i %></a>
+			</li> <% } %>
+			
+			<% if(pm.isNext() == true && pm.getEndPage() > 0) { %>
+			<li>
+			<a href="<%=request.getContextPath() %>/board/boardList.aws?page=<%=pm.getEndPage() %>">▶</a>
+			</li> <% } %>
 		</ul>
 	</div>
 </section>
